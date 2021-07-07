@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "VersionPacker": {
-      "commandName": "Project",
-      "commandLineArgs": "D:\\Programmierung\\C#\\Projects\\Ambermoon\\Versions\\versions.txt"
-    }
-  }
-}

@@ -39,6 +39,8 @@ namespace VersionPacker
                 writer.Write(version);
                 writer.Write(language);
                 writer.Write(info);
+                if (!Path.IsPathRooted(file))
+                    file = Path.Combine(Path.GetDirectoryName(args[0]), file);
                 var bytes = File.ReadAllBytes(file);
                 WriteDword((uint)bytes.Length);
                 dataEntries.Add(bytes);

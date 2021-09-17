@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "LogoCreator": {
+      "commandName": "Project",
+      "commandLineArgs": "D:\\Programmierung\\C#\\Projects\\Ambermoon\\ambermoon.net\\AmbermoonInternalTools\\Logo\\logo.txt D:\\Programmierung\\C#\\Projects\\Ambermoon\\ambermoon.net\\AmbermoonInternalTools\\Logo\\frames.png D:\\Programmierung\\C#\\Projects\\Ambermoon\\ambermoon.net\\AmbermoonInternalTools\\Logo\\logo.pyr"
+    }
+  }
+}

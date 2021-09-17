@@ -2,7 +2,7 @@
   "profiles": {
     "FontCreator": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\Robert\\Desktop\\OutroFont.fnt C:\\Users\\Robert\\Desktop\\OutroFont_0.png C:\\Users\\Robert\\Desktop\\foo.dat"
+      "commandLineArgs": "C:\\Users\\Robert\\Desktop\\OutroFont.fnt C:\\Users\\Robert\\Desktop\\OutroFont_0.png C:\\Users\\Robert\\Desktop\\OutroFont.dat 4"
     }
   }
 }

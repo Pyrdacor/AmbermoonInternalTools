@@ -1,2 +1,2 @@
-1.07,deutsch,Pyrdacor Patch German,German.zip
-1.08,english,Pyrdacor Patch English,English.zip
+1.09,deutsch,Pyrdacor Patch German,German.zip
+1.10,english,Pyrdacor Patch English,English.zip

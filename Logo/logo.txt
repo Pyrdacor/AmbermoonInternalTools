@@ -1,0 +1,30 @@
+# First line should be the frame dimension
+120 50
+
+#TimeInMs:Op:Params:ImageIndex
+
+#Ops:
+#0 -> Nop (Wait)
+#1 -> Blend (color = old color + new color * time factor, till max (old, new))
+#2 -> Replace blend (blend based on time, at end full new color)
+#3 -> Fade out (black emerges)
+#4 -> Print text (fades in)
+
+750:0
+1000:1:0 0 .. 70 40:0
+500:0
+1000:1:0 42 .. 120 0:1
+350:1:0 0 .. 20 19:2
+350:2:3
+350:2:4
+350:2:3
+350:2:2
+350:2:3
+350:2:4
+500:0
+2000:2:5
+500:0
+1000:4:(re)makes games
+2000:0
+2000:3
+1000:0

@@ -11,13 +11,13 @@ namespace FontCreator
     {
         static void Main(string[] args)
         {
-            if (args.Length != 3)
+            if (args.Length != 3 && args.Length != 4)
             {
                 Console.WriteLine("Wrong number of arguments"); // TODO
                 return;
             }
 
-            CreateFont(args[0], args[1], args[2]);
+            CreateFont(args[0], args[1], args[2], args.Length == 3 ? 0 : int.Parse(args[3]));
         }
 
         class GlyphInfo
@@ -70,7 +70,7 @@ namespace FontCreator
             return glyphInfos;
         }
 
-        static void CreateFont(string fontFile, string pngFile, string output)
+        static void CreateFont(string fontFile, string pngFile, string output, int additionalAdvance)
         {
             var list = ParseGlyphInfos(fontFile);
             var bitmap = (Bitmap)Image.FromFile(pngFile);
@@ -110,7 +110,7 @@ namespace FontCreator
                     writer.Write((byte)glyph.ch);
                     writer.Write((byte)glyph.width);
                     writer.Write((byte)glyph.height);
-                    writer.Write((byte)glyph.advance);
+                    writer.Write((byte)(glyph.advance + additionalAdvance));
                     writer.Write(glyph.data);
                 }
             }

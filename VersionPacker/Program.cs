@@ -53,10 +53,6 @@ namespace VersionPacker
                 writer.Write(dataEntry);
             }
 
-            WriteDword((uint)writer.BaseStream.Length);
-            writer.Write((byte)0xB0);
-            writer.Write((byte)0x55);
-
             writer.BaseStream.Position = 0;
             writer.Write((byte)(dataEntries.Count >> 8));
             writer.Write((byte)dataEntries.Count);

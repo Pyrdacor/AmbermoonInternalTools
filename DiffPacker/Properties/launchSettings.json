@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DiffPacker": {
+      "commandName": "Project",
+      "commandLineArgs": "\"D:\\Programmierung\\C#\\Projects\\Ambermoon\\ambermoon.net\\AmbermoonInternalTools\\Diffs\" \"D:\\Programmierung\\C#\\Projects\\Ambermoon\\ambermoon.net\\AmbermoonInternalTools\\diffs.dat\""
+    }
+  }
+}

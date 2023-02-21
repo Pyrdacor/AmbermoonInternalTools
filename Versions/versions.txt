@@ -1,2 +1,4 @@
-1.11,deutsch,Pyrdacor Patch German,German.zip,0
-1.12,english,Pyrdacor Patch English,English.zip,0
+1.17,deutsch,Ambermoon Original,German.zip,0
+1.17,english,Ambermoon Original,English.zip,0
+1.02,deutsch,Ambermoon Advanced,AAGerman.zip,127
+1.02,english,Ambermoon Advanced,AAEnglish.zip,127

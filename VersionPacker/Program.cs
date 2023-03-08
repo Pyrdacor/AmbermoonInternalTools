@@ -26,21 +26,25 @@ namespace VersionPacker
 
             foreach (var line in lines)
             {
-                if (line.Trim().Length == 0)
+                string trimmed = line.Trim();
+
+                if (trimmed.Length == 0 || trimmed.StartsWith('#'))
                     continue;
 
-                var parts = line.Split(',');
+                var parts = trimmed.Split(',');
                 var version = parts[0];
                 var language = parts[1];
                 var info = parts[2];
                 var file = parts[3];
                 var features = int.Parse(parts[4]);
+                bool merge = int.Parse(parts[5]) > 0;
                 uint offset = (uint)writer.BaseStream.Position;
 
                 writer.Write(version);
                 writer.Write(language);
                 writer.Write(info);
-                writer.Write((byte)features);
+                writer.Write((ushort)features);
+                writer.Write((byte)(merge ? 1 : 0));
                 if (!Path.IsPathRooted(file))
                     file = Path.Combine(Path.GetDirectoryName(args[0]), file);
                 var bytes = File.ReadAllBytes(file);

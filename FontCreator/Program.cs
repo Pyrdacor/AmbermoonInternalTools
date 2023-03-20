@@ -9,15 +9,77 @@ namespace FontCreator
 {
     class Program
     {
+        static void Usage()
+        {
+            Console.WriteLine
+            (
+                "FontCreator <font_file> <png_file> <out_file> [advance]" + Environment.NewLine +
+                "FontCreator <png_file> <out_file>" + Environment.NewLine + Environment.NewLine +
+                "The first version was used to create fonts" + Environment.NewLine +
+                "for intro/extro from font definitions." + Environment.NewLine + Environment.NewLine +
+                "Use the IntroFont.* files in the root dir." + Environment.NewLine + Environment.NewLine +
+                "The second version produces the extended ingame font" + Environment.NewLine +
+                "which includes french letters." + Environment.NewLine + Environment.NewLine + Environment.NewLine +
+                "Use the PNG IngameFont.png as an input." + Environment.NewLine
+            );
+        }
+
         static void Main(string[] args)
         {
-            if (args.Length != 3 && args.Length != 4)
+            if (args.Length == 2)
             {
-                Console.WriteLine("Wrong number of arguments"); // TODO
-                return;
+                CreateIngameFont(args[0], args[1]);
             }
+            else if (args.Length == 3 || args.Length == 4)
+            {
+                CreateFont(args[0], args[1], args[2], args.Length == 3 ? 0 : int.Parse(args[3]));
+            }
+            else
+            {
+                Usage();
+                Console.WriteLine("ERROR: Wrong number of arguments");
+            }
+        }
 
-            CreateFont(args[0], args[1], args[2], args.Length == 3 ? 0 : int.Parse(args[3]));
+        static void CreateIngameFont(string pngFile, string outFile)
+        {
+            using var image = (Bitmap)Image.FromFile(pngFile);
+            var foo = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            var data = new byte[image.Width * image.Height * 4];
+            int numGlyphs = image.Width / 12;
+            var gdata = new byte[numGlyphs * 2 * image.Height];
+            Marshal.Copy(foo.Scan0, data, 0, data.Length);
+            image.UnlockBits(foo);
+            int start = 0;
+            int scanLine = image.Width * 4;
+            for (int y = 0; y < image.Height; ++y)
+            {
+                for (int g = 0; g < numGlyphs; ++g)
+                {
+                    int index = start + g * 2;
+                    byte mask = 0x80;
+
+                    for (int x = 0; x < 8; ++x)
+                    {
+                        if (data[y * scanLine + g * 12 * 4 + x * 4] != 0)
+                            gdata[index] |= mask;
+                        mask >>= 1;
+                    }
+
+                    ++index;
+                    mask = 0x80;
+
+                    for (int x = 8; x < 12; ++x)
+                    {
+                        if (data[y * scanLine + g * 12 * 4 + x * 4] != 0)
+                            gdata[index] |= mask;
+                        mask >>= 1;
+                    }
+                }
+
+                start += numGlyphs * 2;
+            }
+            File.WriteAllBytes(outFile, gdata);
         }
 
         class GlyphInfo

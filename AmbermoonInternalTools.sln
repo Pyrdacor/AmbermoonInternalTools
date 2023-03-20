@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FontCreator", "FontCreator\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogoCreator", "LogoCreator\LogoCreator.csproj", "{076F703F-D2F9-465F-A9C8-D51A2F95D528}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiffPacker", "DiffPacker\DiffPacker.csproj", "{7BDF7AC3-A7D2-477F-A796-65A01449AE24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiffPacker", "DiffPacker\DiffPacker.csproj", "{7BDF7AC3-A7D2-477F-A796-65A01449AE24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlagPaletteAndImageCreator", "FlagPaletteAndImageCreator\FlagPaletteAndImageCreator.csproj", "{CE6DAB60-B1D5-45FD-AFAE-C443D561751A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{7BDF7AC3-A7D2-477F-A796-65A01449AE24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BDF7AC3-A7D2-477F-A796-65A01449AE24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BDF7AC3-A7D2-477F-A796-65A01449AE24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE6DAB60-B1D5-45FD-AFAE-C443D561751A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE6DAB60-B1D5-45FD-AFAE-C443D561751A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE6DAB60-B1D5-45FD-AFAE-C443D561751A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE6DAB60-B1D5-45FD-AFAE-C443D561751A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -16,6 +16,12 @@ namespace VersionPacker
 
             writer.Write((ushort)0); // placeholder for version count, filled later
 
+            void WriteWord(ushort word)
+            {
+                writer.Write((byte)(word >> 8));
+                writer.Write((byte)word);
+            }
+
             void WriteDword(uint dword)
             {
                 writer.Write((byte)(dword >> 24));
@@ -43,7 +49,7 @@ namespace VersionPacker
                 writer.Write(version);
                 writer.Write(language);
                 writer.Write(info);
-                writer.Write((ushort)features);
+                WriteWord((ushort)features);
                 writer.Write((byte)(merge ? 1 : 0));
                 if (!Path.IsPathRooted(file))
                     file = Path.Combine(Path.GetDirectoryName(args[0]), file);

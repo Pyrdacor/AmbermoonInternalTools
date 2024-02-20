@@ -2,7 +2,7 @@
   "profiles": {
     "FontCreator": {
       "commandName": "Project",
-      "commandLineArgs": "D:\\Projekte\\AmbermoonStuff\\AmbermoonInternalTools\\IngameFont.png D:\\Projekte\\AmbermoonStuff\\AmbermoonInternalTools\\IngameFont.dat"
+      "commandLineArgs": "D:\\Projects\\AmbermoonInternalTools\\IngameFont.png D:\\Projects\\AmbermoonInternalTools\\IngameFont.dat"
     }
   }
 }

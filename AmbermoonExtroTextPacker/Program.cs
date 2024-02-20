@@ -10,7 +10,7 @@ namespace AmbermoonExtroTextPacker
             var outroTexts = new List<List<string>>[6] { new(), new(), new(), new(), new(), new() };
             int clickGroupIndex = 0;
 
-            var path = @"D:\Projekte\Ambermoon\Disks\Bugfixing\Polish\ExtroTextGroups";
+            var path = @"D:\Projects\Ambermoon\Disks\Bugfixing\Czech\ExtroTextGroups";
 
             foreach (var clickGroup in Directory.GetDirectories(path).OrderBy(d => int.Parse(Path.GetFileName(d)[0..3])))
             {
@@ -56,14 +56,14 @@ namespace AmbermoonExtroTextPacker
             }
 
             dataWriter.Write((ushort)1); // Number of translators
-            dataWriter.WriteNullTerminated("galon3"); // Translator (note: ensure UTF8)
+            dataWriter.WriteNullTerminated("Daniel Zima"); // Translator (note: ensure UTF8)
 
-            dataWriter.WriteNullTerminated("<KLIKNIJ>", Encoding.UTF8);
+            dataWriter.WriteNullTerminated("<CLICK>", Encoding.UTF8);
 
             if (dataWriter.Size % 2 == 1)
                 dataWriter.Write((byte)0);
 
-            File.WriteAllBytes(@"D:\Projekte\Ambermoon\Disks\Bugfixing\Polish\Extro_texts.amb", dataWriter.ToArray());
+            File.WriteAllBytes(@"D:\Projects\Ambermoon\Disks\Bugfixing\Czech\Extro_texts.amb", dataWriter.ToArray());
         }
     }
 }

@@ -11,7 +11,7 @@ namespace AmbermoonIntroTextPacker
             var nonCommandTexts = new List<string>();
             var commandTexts = new List<string[]>();
             var currentCommandTexts = new List<string>();
-            var path = @"D:\Projekte\Ambermoon\Disks\Bugfixing\Polish\IntroTexts";
+            var path = @"D:\Projects\Ambermoon\Disks\Bugfixing\Czech\IntroTexts";
 
             foreach (var file in Directory.GetFiles(path).OrderBy(f => int.Parse(Path.GetFileName(f)[0..3])).ThenBy(f =>
             {
@@ -63,7 +63,7 @@ namespace AmbermoonIntroTextPacker
                     dataWriter.WriteNullTerminated(commandTextEntry, Encoding.UTF8);
             }
 
-            File.WriteAllBytes(@"D:\Projekte\Ambermoon\Disks\Bugfixing\Polish\Intro_texts.amb", dataWriter.ToArray());
+            File.WriteAllBytes(@"D:\Projects\Ambermoon\Disks\Bugfixing\Czech\Intro_texts.amb", dataWriter.ToArray());
         }
     }
 }

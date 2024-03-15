@@ -56,7 +56,7 @@ namespace AmbermoonExtroTextPacker
             }
 
             dataWriter.Write((ushort)1); // Number of translators
-            dataWriter.WriteNullTerminated("Daniel Zima"); // Translator (note: ensure UTF8)
+            dataWriter.WriteNullTerminated("DANIEL ZIMA"); // Translator (note: ensure UTF8)
 
             dataWriter.WriteNullTerminated("<CLICK>", Encoding.UTF8);
 

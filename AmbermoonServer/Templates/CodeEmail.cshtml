@@ -1,0 +1,15 @@
+﻿@model AmbermoonServer.Templates.CodeEmailModel
+
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Your personal account code</h1>
+    <p>Please remember your account code and don't share it! You have to enter it inside the Ambermoon application to sync your savegames.</p>
+    <p>Beside the savegame data only your email and an auto-generated code (password) are stored.</p>
+    <p>Your personal code is:</p>
+    <p>@Model.Code</p>
+    <p>Use it together with your email (@Model.Email) to sync your savegames.</p>
+    <p>You can also scan the QR code below on mobile devices and copy the code:</p>
+    <img src="@Model.QRCode" alt="@Model.Code" />
+</body>
+</html>

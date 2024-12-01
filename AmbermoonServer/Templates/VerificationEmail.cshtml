@@ -1,0 +1,14 @@
+﻿@model AmbermoonServer.Templates.VerificationEmailModel
+
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Account registration</h1>
+    <p>An account is needed to store savegames across devices.</p>
+    <p>Beside the savegame data only your email and an auto-generated code (password) are stored.</p>
+    <p>You have to verify your account by clicking the following link.</p>
+    <p><a href="@Model.VerificationUrl">Verify account</a></p>
+    <p>If you didn't request the registration, you don't have to do anything now.</p>
+    <p>After you verify your account we will send you the code/password to sync your savegames.</p>
+</body>
+</html>

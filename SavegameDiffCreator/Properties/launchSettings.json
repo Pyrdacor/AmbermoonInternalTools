@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SavegameDiffCreator": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\Robert\\Downloads\\ambermoon_advanced_german_1.03_extracted_/Amberfiles\" \"D:\\Amiga\\Games\\Ambermoon-Advanced\\Amberfiles\" 23 \"D:\\Projects\\AmbermoonInternalTools\\Diffs\""
+    }
+  }
+}

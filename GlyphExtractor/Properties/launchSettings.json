@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GlyphExtractor": {
+      "commandName": "Project",
+      "commandLineArgs": "\"D:\\Projects\\AmbermoonInternalTools\\AmbermoonExtroPatcher\\SmallGlyphsCzechTest.png\" \"D:\\Projects\\AmbermoonInternalTools\\AmbermoonExtroPatcher\\inst.txt\""
+    }
+  }
+}

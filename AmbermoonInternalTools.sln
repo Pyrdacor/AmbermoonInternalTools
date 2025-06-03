@@ -29,6 +29,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmbermoonServer", "Ambermoo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SavegameDiffCreator", "SavegameDiffCreator\SavegameDiffCreator.csproj", "{009D5DB2-9DE8-41AE-A674-9EEB09FE6A04}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmbermoonExtroPatcher", "AmbermoonExtroPatcher\AmbermoonExtroPatcher.csproj", "{573AA29A-B42E-405D-830C-8B7CE9E406C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlyphExtractor", "GlyphExtractor\GlyphExtractor.csproj", "{A3856FE8-9AA5-4217-B53B-CEDA3C9860EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +91,14 @@ Global
 		{009D5DB2-9DE8-41AE-A674-9EEB09FE6A04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{009D5DB2-9DE8-41AE-A674-9EEB09FE6A04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{009D5DB2-9DE8-41AE-A674-9EEB09FE6A04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{573AA29A-B42E-405D-830C-8B7CE9E406C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{573AA29A-B42E-405D-830C-8B7CE9E406C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{573AA29A-B42E-405D-830C-8B7CE9E406C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{573AA29A-B42E-405D-830C-8B7CE9E406C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3856FE8-9AA5-4217-B53B-CEDA3C9860EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3856FE8-9AA5-4217-B53B-CEDA3C9860EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3856FE8-9AA5-4217-B53B-CEDA3C9860EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3856FE8-9AA5-4217-B53B-CEDA3C9860EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

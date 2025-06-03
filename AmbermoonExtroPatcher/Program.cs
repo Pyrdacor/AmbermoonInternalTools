@@ -4,6 +4,7 @@ using Ambermoon.Data.Legacy.Serialization;
 using Ambermoon.Data.Serialization;
 using AmbermoonExtroPatcher;
 using System.Data;
+using System.Text;
 using AmigaExecutable = AmbermoonExtroPatcher.AmigaExecutable;
 
 // The extro texts are grouped by sections which
@@ -50,7 +51,25 @@ public static class Program
     // args[1]: Path for Ambermoon_extro to save
     public static void Main(string[] args)
     {
-        var outroHunks2 = AmigaExecutable.Read(new FileReader().ReadFile("Ambermoon_extro", new DataReader(File.ReadAllBytes(@"D:\Projects\AmbermoonInternalTools\AmbermoonExtroPatcher\Ambermoon_extro_new"))).Files[1]);
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+        /*var outroHunks2 = AmigaExecutable.Read(new FileReader().ReadFile("Ambermoon_extro", new DataReader(File.ReadAllBytes(@"D:\Projects\AmbermoonInternalTools\AmbermoonExtroPatcher\CzechGlyphs\Ambermoon_extro_translation_base"))).Files[1]);
+
+        var foo = File.ReadAllBytes(@"D:\Projects\AmbermoonInternalTools\AmbermoonExtroPatcher\CzechGlyphs\Extro_fonts");
+
+        int index = outroHunks2.FindLastIndex(h => h.Type == AmigaExecutable.HunkType.Data);
+        var h = outroHunks2[index];
+        outroHunks2[index] = new AmigaExecutable.Hunk(AmigaExecutable.HunkType.Data, h.MemoryFlags, foo);
+
+        var w = new DataWriter();
+
+        AmigaExecutable.Write(w, outroHunks2);
+
+        File.WriteAllBytes(@"D:\Projects\AmbermoonInternalTools\AmbermoonExtroPatcher\CzechGlyphs\Ambermoon_extro_patched", w.ToArray());
+
+        return;*/
+
+        /*var outroHunks2 = AmigaExecutable.Read(new FileReader().ReadFile("Ambermoon_extro", new DataReader(File.ReadAllBytes(@"D:\Projects\AmbermoonInternalTools\AmbermoonExtroPatcher\Ambermoon_extro_new"))).Files[1]);
 
         var foo = File.ReadAllBytes(@"D:\Projects\AmbermoonInternalTools\AmbermoonExtroPatcher\Extro_fonts");
 
@@ -64,7 +83,7 @@ public static class Program
 
         File.WriteAllBytes(@"D:\Projects\AmbermoonInternalTools\AmbermoonExtroPatcher\Ambermoon_extro_patched", w.ToArray());
 
-        return;
+        return;*/
 
         var gameData = new GameData(GameData.LoadPreference.ForceExtracted, null, false, GameData.VersionPreference.Post114);
 
@@ -219,9 +238,13 @@ public static class Program
             if (outroTextsReader.Position % 2 == 1)
                 ++outroTextsReader.Position;
 
+            var fontsData = File.ReadAllBytes(Path.Combine(args[0], "Extro_fonts"));
+
+            var encoding = Encoding.GetEncoding(852);//Encoding.GetEncoding("ISO-8859-2");
+
             try
             {
-                PatchTexts(outroActions, texts, newTextClickGroups, translators, clickText, 44);
+                PatchTexts(outroActions, texts, newTextClickGroups, translators, clickText, new Fonts(new DataReader(fontsData)), encoding);
             }
             catch (Exception ex)
             {
@@ -233,7 +256,7 @@ public static class Program
             }
 
             dataHunk.Position = 0;
-            var newDataHunk = BuildActionHunk(afterListPosition, outroActions, texts, dataHunk);
+            var newDataHunk = BuildActionHunk(afterListPosition, outroActions, texts, dataHunk, encoding);
 
             int hunkIndex = outroHunks.FindIndex(hunk => hunk.Type == AmigaExecutable.HunkType.Data);
             var hunk = outroHunks[hunkIndex];
@@ -256,7 +279,8 @@ public static class Program
     static byte[] BuildActionHunk
     (
         int afterListPosition, Dictionary<OutroOption, List<OutroAction>> outroActions,
-        List<string> texts, Ambermoon.Data.Serialization.IDataReader dataHunk)
+        List<string> texts, Ambermoon.Data.Serialization.IDataReader dataHunk,
+        Encoding encoding)
     {
         var output = new DataWriter();
         Dictionary<int, uint> pointersByTextIndex = [];
@@ -322,7 +346,7 @@ public static class Program
                     writer.Write((byte)textAction.TextDisplayX);
                     writer.Write((byte)(textAction.LargeText ? 1 : 0));
                     if (textAction.TextIndex != null)
-                        writer.WriteNullTerminated(FixText(texts[textAction.TextIndex.Value]));
+                        writer.WriteNullTerminated(texts[textAction.TextIndex.Value], encoding);
                     else
                         writer.Write((byte)0);
                 }
@@ -330,21 +354,6 @@ public static class Program
                 {
                     Console.WriteLine();
                 }
-            }
-
-            // TODO: Remove later
-            static string FixText(string text)
-            {
-                for (int i = 0; i < text.Length; i++)
-                {
-                    if (text[i] >= 128)
-                    {
-                        // Replace non-ASCII characters with a space
-                        text = text.Remove(i, 1).Insert(i, "X");
-                    }
-                }
-
-                return text;
             }
 
             writer.Write((byte)0xff); // wait for click
@@ -408,9 +417,34 @@ public static class Program
     (
         Dictionary<OutroOption, List<OutroAction>> outroActions,
         List<string> oldTexts, List<List<string>>[] newTextGroups,
-        List<string> translators, string clickText, int maxLineLength
+        List<string> translators, string clickText,
+        Fonts fonts, Encoding encoding
     )
     {
+        int MeasureTextWidth(string text)
+        {
+            int spaceAdvance = fonts.SmallSpaceAdvance;
+            byte[] advanceValues = fonts.SmallAdvanceValues;
+            int width = 0;
+
+            foreach (var ch in encoding.GetBytes(text))
+            {
+                if (ch == 0x20)
+                    width += spaceAdvance;
+                else
+                {
+                    int glyphIndex = fonts.GlyphMapping[ch - 32];
+
+                    if (glyphIndex != 255)
+                        width += advanceValues[glyphIndex];
+                }
+            }
+
+            return width;
+        }
+
+        const int maxLineWidth = 320 - 12; // small texts usually start at X = 12
+
         if (newTextGroups.Length != 6)
             throw new Exception("Wrong count of outro text groups.");
 
@@ -422,7 +456,7 @@ public static class Program
         string[] GetWords(string line)
         {
             if (string.IsNullOrWhiteSpace(line))
-                return Array.Empty<string>();
+                return [];
 
             if (line.StartsWith(' '))
             {
@@ -436,7 +470,7 @@ public static class Program
                 if (wordEndIndex == -1) // only one word
                     return [line];
 
-                return Enumerable.Concat(new string[1] { line[0..wordEndIndex] }, line[(wordEndIndex + 1)..].Split(' ')).ToArray();
+                return [.. Enumerable.Concat([line[0..wordEndIndex]], line[(wordEndIndex + 1)..].Split(' '))];
             }
             else
             {
@@ -487,18 +521,18 @@ public static class Program
 
                         while (remainingText.Length != 0)
                         {
-                            if (remainingText.Length > maxLineLength)
+                            if (MeasureTextWidth(remainingText) > maxLineWidth)
                             {
                                 var words = GetWords(remainingText);
 
-                                if (words[0].Length > maxLineLength)
+                                if (MeasureTextWidth(words[0]) > maxLineWidth)
                                     throw new Exception("Outro text could not be fit in.");
 
                                 string fitText = words[0];
 
                                 for (int w = 1; w < words.Length; ++w)
                                 {
-                                    if (fitText.Length + 1 + words[w].Length > maxLineLength)
+                                    if (MeasureTextWidth(fitText) + fonts.SmallSpaceAdvance + MeasureTextWidth(words[w]) > maxLineWidth)
                                         break;
 
                                     fitText += " " + words[w];
@@ -524,15 +558,15 @@ public static class Program
                         if (nextWords.Length != 0)
                         {
                             var words = GetWords(text);
-                            int lineLength = text.Length;
+                            int lineLength = MeasureTextWidth(text);
                             int consumedNextWords = 0;
 
                             // + 1 as we need a space character in between
-                            while (consumedNextWords < nextWords.Length && lineLength + 1 + nextWords[consumedNextWords].Length <= maxLineLength)
+                            while (consumedNextWords < nextWords.Length && lineLength + fonts.SmallSpaceAdvance + MeasureTextWidth(nextWords[consumedNextWords]) <= maxLineWidth)
                             {
                                 // Add the word to the current line
                                 group[i] += " " + nextWords[consumedNextWords++];
-                                lineLength = group[i].Length;
+                                lineLength = MeasureTextWidth(group[i]);
                             }
 
                             // Remove moved words from next line
@@ -550,7 +584,7 @@ public static class Program
                         {
                             var words = new List<string>(GetWords(text));
 
-                            while (group[i].Length > maxLineLength)
+                            while (MeasureTextWidth(group[i]) > maxLineWidth)
                             {
                                 if (words.Count == 1)
                                     throw new Exception("Outro text could not be fit in.");

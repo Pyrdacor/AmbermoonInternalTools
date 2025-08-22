@@ -4,5 +4,5 @@
 1.19,French,Ambermoon Original,French.zip,0,1
 1.19,Polish,Ambermoon Original,Polish.zip,0,1
 1.19,Czech,Ambermoon Original,Czech.zip,0,1
-1.31,German,Ambermoon Advanced,AAGerman.zip,4095,0
-1.31,English,Ambermoon Advanced,AAEnglish.zip,4095,1
+1.33,German,Ambermoon Advanced,AAGerman.zip,36863,0
+1.33,English,Ambermoon Advanced,AAEnglish.zip,36863,1

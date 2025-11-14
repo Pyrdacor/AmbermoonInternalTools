@@ -5,12 +5,63 @@ namespace AmbermoonExtroTextPacker
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Usage()
         {
+            Console.WriteLine("Usage: AmbermoonExtroTextPacker.exe [working_dir] [click_text] [translator1_name] [...]");
+            Console.WriteLine();
+            Console.WriteLine("working_dir:      Directory to search for the ExtroTextGroups folder and output directory");
+            Console.WriteLine("click_text:       Text to be used for the click text (default: <CLICK>)");
+            Console.WriteLine("translator1_name: Name of the first translator (default: keep original)");
+            Console.WriteLine("                  You can specify more translators if needed.");
+            Console.WriteLine("Ensure quotes around click text and translator names if they contain spaces!");
+            Console.WriteLine();
+            Console.WriteLine("Example: AmbermoonExtroTextPacker.exe C:\\CzechTranslation \"<CLICK>\" \"DANIEL ZIMA\"");
+            Console.WriteLine();
+            Console.WriteLine("This tool packs the extro texts for Ambermoon into a single file.");
+            Console.WriteLine("It expects the extro text groups to be organized in directories under a specified path.");
+            Console.WriteLine("The directory structure should be as follows:");
+            Console.WriteLine("[working_dir]\\ExtroTextGroups\\");
+            Console.WriteLine("  000\\");
+            Console.WriteLine("    000\\");
+            Console.WriteLine("      000.txt");
+            Console.WriteLine("      ...");
+            Console.WriteLine("    ...");
+            Console.WriteLine("  001\\");
+            Console.WriteLine("    ...");
+            Console.WriteLine("  002\\");
+            Console.WriteLine("    ...");
+            Console.WriteLine("  003\\");
+            Console.WriteLine("    ...");
+            Console.WriteLine("  004\\");
+            Console.WriteLine("    ...");
+            Console.WriteLine("  005\\");
+            Console.WriteLine("    ...");
+            Console.WriteLine("The output file will be written to 'Extro_texts.amb' in the [working_dir].");
+            Console.WriteLine();
+        }
+
+        static int Main(string[] args)
+        {
+            if (args.Length == 1 && (args[0] == "--help" || args[0] == "-h" || args[0] == "/?"))
+            {
+                Usage();
+                return 0;
+            }
+
+            string workingDirectory = args.Length == 0 ? Environment.CurrentDirectory : args[0];
+            string clickText = args.Length < 2 ? "<CLICK>" : args[1];
+            string[] translatorNames = args.Length < 3 ? [] : args.Skip(2).ToArray();
+
             var outroTexts = new List<List<string>>[6] { new(), new(), new(), new(), new(), new() };
             int clickGroupIndex = 0;
 
-            var path = @"D:\Projects\Ambermoon\Disks\Bugfixing\Czech\ExtroTextGroups";
+            var path = Path.Combine(workingDirectory, "ExtroTextGroups");
+
+            if (!Directory.Exists(path))
+            {
+                Console.WriteLine("Error: The specified working directory does not contain the ExtroTextGroups folder.");
+                return 1;
+            }
 
             foreach (var clickGroup in Directory.GetDirectories(path).OrderBy(d => int.Parse(Path.GetFileName(d)[0..3])))
             {
@@ -28,8 +79,7 @@ namespace AmbermoonExtroTextPacker
 
                     clickGroupTexts.Add(groupTexts);
                 }
-            }
-            
+            }            
 
             var dataWriter = new DataWriter();
 
@@ -55,15 +105,27 @@ namespace AmbermoonExtroTextPacker
                     dataWriter.Write((byte)0);
             }
 
-            dataWriter.Write((ushort)1); // Number of translators
-            dataWriter.WriteNullTerminated("DANIEL ZIMA"); // Translator (note: ensure UTF8)
+            dataWriter.Write((ushort)translatorNames.Length); // Number of translators
 
-            dataWriter.WriteNullTerminated("<CLICK>", Encoding.UTF8);
+            foreach (var translatorName in translatorNames)
+                dataWriter.WriteNullTerminated(translatorName, Encoding.UTF8);
+
+            dataWriter.WriteNullTerminated(clickText, Encoding.UTF8);
 
             if (dataWriter.Size % 2 == 1)
                 dataWriter.Write((byte)0);
 
-            File.WriteAllBytes(@"D:\Projects\Ambermoon\Disks\Bugfixing\Czech\Extro_texts.amb", dataWriter.ToArray());
+            try
+            {
+                File.WriteAllBytes(Path.Combine(workingDirectory, "Extro_texts.amb"), dataWriter.ToArray());
+                Console.WriteLine("Extro texts packed successfully into 'Extro_texts.amb'.");
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error writing output file: " + ex.Message);
+                return -1;
+            }
         }
     }
 }

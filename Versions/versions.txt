@@ -1,8 +1,8 @@
 #version,language,displayName,dataZipFile,features,mergeWithPrevious
-1.19,German,Ambermoon Original,German.zip,0,0
-1.19,English,Ambermoon Original,English.zip,0,1
-1.19,French,Ambermoon Original,French.zip,0,1
-1.19,Polish,Ambermoon Original,Polish.zip,0,1
-1.19,Czech,Ambermoon Original,Czech.zip,0,1
+1.20,German,Ambermoon Original,German.zip,0,0
+1.20,English,Ambermoon Original,English.zip,0,1
+1.20,French,Ambermoon Original,French.zip,0,1
+1.20,Polish,Ambermoon Original,Polish.zip,0,1
+1.20,Czech,Ambermoon Original,Czech.zip,0,1
 1.33,German,Ambermoon Advanced,AAGerman.zip,233471,0
 1.33,English,Ambermoon Advanced,AAEnglish.zip,233471,1
